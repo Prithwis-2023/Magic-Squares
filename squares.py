@@ -104,7 +104,7 @@ def solve_algorithm(square):
                                     mod_sq.append(list(square[k]))
                                 
                                 magic = np.array(mod_sq)    
-                                if (magic == sol_6).all() == False:
+                                if np.array_equiv(magic, sol_6) == True:
                                     print(magic)
 
 solve_algorithm(square_6)    
