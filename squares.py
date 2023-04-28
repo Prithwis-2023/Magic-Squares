@@ -66,30 +66,34 @@ def solve_algorithm(square):
     half = int(dimension / 2)
 
     for l in range(len(combs0)):
-        if common(list(combs0[l]), list(combs1[l])) == False:
-            if square[half][half-1] not in list(combs0[l]) and square[half][half] not in list(combs0[l]) and square[half-1][half-1] not in list(combs1[l]) and square[half-1][half] not in list(combs1[l]):
-                perm0 = list(itertools.permutations(list(combs0[l]), dimension-2))
-                perm1 = list(itertools.permutations(list(combs1[l]), dimension-2))
-                
-                for j in range(len(perm0)):
-                    perm0[j] = list(perm0[j])
-                    perm1[j] = list(perm1[j])
-                    if common(perm0[j], perm1[j]) == False:
-                        perm0[j].insert(square[half-1][half-1], half-1)
-                        perm0[j].insert(square[half-1][half], half)
-                        perm1[j].insert(square[half][half-1], half-1)
-                        perm1[j].insert(square[half][half], half)
-                        
-                        mod_sq= []
-                        for k in range(half-1):
-                            mod_sq.append(square[k])
-                        mod_sq.append(perm0[j])
-                        mod_sq.append(perm1[j])    
-                        for k in range((half+1),dimension):
-                            mod_sq.append(square[k])
-                        
-                        magic = np.array(mod_sq)    
-                        #square_checker(magic)
-                        print(magic)
+        for p in range(len(combs1)):
+            if common(list(combs0[l]), list(combs1[p])) == False:
+                if square[half][half-1] not in list(combs0[l]) and square[half][half] not in list(combs0[l]) and square[half-1][half-1] not in list(combs1[p]) and square[half-1][half] not in list(combs1[p]):
+                    perm0 = list(itertools.permutations(list(combs0[l]), dimension-2))
+                    perm1 = list(itertools.permutations(list(combs1[p]), dimension-2))
+                    
+                    for j in range(len(perm0)):
+                        for q in range(len(perm1)):
+                            #perm0[j] = list(perm0[j])
+                            #perm1[q] = list(perm1[q])
+                            if common(list(perm0[j]), list(perm1[q])) == False:
+                                perm0_mod = list(perm0[j])[:(half-1)] + [square[half-1][half-1], square[half-1][half]] + list(perm0[j])[(half-1):]
+                                #list(perm0[j]).insert(square[half-1][half-1], half-1)
+                                #list(perm0[j]).insert(square[half-1][half], half)
+                                perm1_mod = list(perm1[j])[:(half-1)] + [square[half][half-1], square[half][half]] + list(perm1[j])[(half-1):]
+                                #list(perm1[q]).insert(square[half][half-1], half-1)
+                                #list(perm1[q]).insert(square[half][half], half)
+                                
+                                mod_sq= []
+                                for k in range(half-1):
+                                    mod_sq.append(list(square[k]))
+                                mod_sq.append(perm0_mod)
+                                mod_sq.append(perm1_mod)    
+                                for k in range((half+1),dimension):
+                                    mod_sq.append(list(square[k]))
+                                
+                                magic = np.array(mod_sq)    
+                                square_checker(magic)
+                                #print(mod_sq)
 
 solve_algorithm(square_6)    

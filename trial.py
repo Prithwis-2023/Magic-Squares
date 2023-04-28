@@ -20,6 +20,32 @@ square_6 = np.array([[1,32,34,3,35,6],
             [12,26,10,9,29,25],
             [31,5,4,33,2,36]])
 
+def square_checker(square):
+    l = [] 
+    for row in square:
+        l.append(sum(row))
+    
+    for i in range(int(math.sqrt(square[-1][-1]))):
+            l.append(sum(square[:,i]))    
+    
+    sum_left = 0
+    for j in range(int(math.sqrt(square[-1][-1]))):
+        sum_left = sum_left + square[j][j]
+    l.append(sum_left)    
+       
+    sum_right = 0
+    for k in range(int(math.sqrt(square[-1][-1]))):
+        sum_right = sum_right + square[k][-(k+1)]
+    l.append(sum_right)
+
+    if len(set(l)) == 1:
+        print("true")
+    else:
+        print("false")
+
+
+
+
 def solve_algorithm(square):
     dimension = int(math.sqrt(square[-1][-1]))
     sum_square = 0
@@ -30,13 +56,7 @@ def solve_algorithm(square):
         for number in row:
             if number in possible_numerals:
                 possible_numerals.remove(number)
-    
-    combs0= list(itertools.combinations(possible_numerals, dimension-2))
-    combs1= list(itertools.combinations(possible_numerals, dimension-2))
+    print(possible_numerals)
 
-    perm0 = list(itertools.permutations(list(combs0[1]), dimension-2))
-    
-    perm0[1] = list(perm0[1])
-    print(perm0[1])
-
-solve_algorithm(square_6)        
+l2 = list(square_6[0])[:2] + [2,3] + list(square_6[0])[2:]
+print(l2)
