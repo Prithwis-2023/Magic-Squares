@@ -36,6 +36,7 @@ def solve_algorithm(square):
 
     perm0 = list(itertools.permutations(list(combs0[1]), dimension-2))
     
-    print(list(perm0[1]))
+    perm0[1] = list(perm0[1])
+    print(perm0[1])
 
 solve_algorithm(square_6)        
