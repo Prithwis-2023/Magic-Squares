@@ -20,6 +20,13 @@ square_6 = np.array([[1,32,34,3,35,6],
             [12,26,10,9,29,25],
             [31,5,4,33,2,36]])
 
+sol_6 = np.array([[1,32,34,3,35,6],
+            [30,8,27,28,11,7],
+            [24,17,15,16,20,19],
+            [13,23,21,22,14,18],
+            [12,26,10,9,29,25],
+            [31,5,4,33,2,36]])
+
 def common(a,b):
     out = any(check in a for check in b)
     if out:
@@ -28,25 +35,29 @@ def common(a,b):
         return False
 
 def square_checker(square):
+    sq = list(square)
     l = [] 
-    for row in square:
+    for row in sq:
         l.append(sum(row))
     
-    for i in range(int(math.sqrt(square[-1][-1]))):
-            l.append(sum(square[:,i]))    
+    sum_col = 0
+    for i in range(int(math.sqrt(sq[-1][-1]))):
+        for j in range(int(math.sqrt(sq[-1][-1]))):    
+            sum_col = sum_col + sq[j][i]
+            l.append(sum_col)    
     
     sum_left = 0
-    for j in range(int(math.sqrt(square[-1][-1]))):
-        sum_left = sum_left + square[j][j]
+    for j in range(int(math.sqrt(sq[-1][-1]))):
+        sum_left = sum_left + sq[j][j]
     l.append(sum_left)    
        
     sum_right = 0
-    for k in range(int(math.sqrt(square[-1][-1]))):
-        sum_right = sum_right + square[k][-(k+1)]
+    for k in range(int(math.sqrt(sq[-1][-1]))):
+        sum_right = sum_right + sq[k][-(k+1)]
     l.append(sum_right)
 
     if len(set(l)) == 1:
-        print(square)
+        return True
 
 
 def solve_algorithm(square):
@@ -93,7 +104,7 @@ def solve_algorithm(square):
                                     mod_sq.append(list(square[k]))
                                 
                                 magic = np.array(mod_sq)    
-                                square_checker(magic)
-                                #print(mod_sq)
+                                if (magic == sol_6).all() == False:
+                                    print(magic)
 
 solve_algorithm(square_6)    
