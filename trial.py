@@ -15,30 +15,27 @@ square = np.array([[1,2,98,97,96,5,94,93,9,10],
 
 square_6 = np.array([[1,32,34,3,35,6],
             [30,8,27,28,11,7],
-            [24,17,15,16,20,19],
-            [13,23,21,22,14,18],
+            [0,0,15,16,0,0],
+            [0,0,21,22,0,0],
             [12,26,10,9,29,25],
             [31,5,4,33,2,36]])
 
-def square_checker(square):
-    l = [] 
+def solve_algorithm(square):
+    dimension = int(math.sqrt(square[-1][-1]))
+    sum_square = 0
+    for i in range(dimension):
+        sum_square = sum_square + square[i][i]
+    possible_numerals = [i+1 for i in range(dimension**2)]
     for row in square:
-        l.append(sum(row))
+        for number in row:
+            if number in possible_numerals:
+                possible_numerals.remove(number)
     
-    for i in range(int(math.sqrt(square[-1][-1]))):
-            l.append(sum(square[:,i]))   
+    combs0= list(itertools.combinations(possible_numerals, dimension-2))
+    combs1= list(itertools.combinations(possible_numerals, dimension-2))
+
+    perm0 = list(itertools.permutations(list(combs0[1]), dimension-2))
     
-    sum_left = 0
-    for j in range(int(math.sqrt(square[-1][-1]))):
-        sum_left = sum_left + square[j][j]
-    l.append(sum_left)    
-       
-    sum_right = 0
-    for k in range(int(math.sqrt(square[-1][-1]))):
-        sum_right = sum_right + square[k][-(k+1)]
-    l.append(sum_right)
+    print(list(perm0[1]))
 
-    if len(set(l)) == 1:
-        print(square)                 
-
-square_checker(square_6)
+solve_algorithm(square_6)        

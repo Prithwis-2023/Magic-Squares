@@ -59,9 +59,9 @@ def solve_algorithm(square):
     half = int(dimension / 2)
 
     for l in range(len(combs0)):
-        if square[half][half-1] not in combs0[l] and square[half][half] not in combs0[l] and square[half-1][half-1] not in combs1[l] and square[half-1][half] not in combs1[l]:
-            perm0 = list(itertools.permutations(combs0[l], dimension-2))
-            perm1 = list(itertools.permutations(combs1[l], dimension-2))
+        if square[half][half-1] not in list(combs0[l]) and square[half][half] not in list(combs0[l]) and square[half-1][half-1] not in list(combs1[l]) and square[half-1][half] not in list(combs1[l]):
+            perm0 = list(itertools.permutations(list(combs0[l]), dimension-2))
+            perm1 = list(itertools.permutations(list(combs1[l]), dimension-2))
             
             for j in range(len(perm0)):
                 perm0[j] = list(perm0[j])
