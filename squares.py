@@ -101,6 +101,6 @@ def solve_algorithm(square):
                                 magic = np.array(mod_sq)    
                                 if is_magic_square(magic) == True:
                                     print(magic)
-                                    print("=====================================")
+                                    print("-----------------------------------------------")
 
-solve_algorithm(square_6)    
+solve_algorithm(square_10)    
