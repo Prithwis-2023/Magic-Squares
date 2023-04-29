@@ -86,7 +86,7 @@ def solve_algorithm(square):
                                 perm0_mod = list(perm0[j])[:(half-1)] + [square[half-1][half-1], square[half-1][half]] + list(perm0[j])[(half-1):]
                                 #list(perm0[j]).insert(square[half-1][half-1], half-1)
                                 #list(perm0[j]).insert(square[half-1][half], half)
-                                perm1_mod = list(perm1[j])[:(half-1)] + [square[half][half-1], square[half][half]] + list(perm1[j])[(half-1):]
+                                perm1_mod = list(perm1[q])[:(half-1)] + [square[half][half-1], square[half][half]] + list(perm1[q])[(half-1):]
                                 #list(perm1[q]).insert(square[half][half-1], half-1)
                                 #list(perm1[q]).insert(square[half][half], half)
                                 
@@ -101,5 +101,6 @@ def solve_algorithm(square):
                                 magic = np.array(mod_sq)    
                                 if is_magic_square(magic) == True:
                                     print(magic)
+                                    print("=====================================")
 
 solve_algorithm(square_6)    

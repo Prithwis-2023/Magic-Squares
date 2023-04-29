@@ -45,8 +45,12 @@ def square_checker(square):
     if len(set(l)) == 1:
         print("True")
 
-
-
+def common(a,b):
+    out = any(check in a for check in b)
+    if out:
+        return True
+    else:
+        return False
 
 def solve_algorithm(square):
     dimension = int(math.sqrt(square[-1][-1]))
@@ -58,9 +62,32 @@ def solve_algorithm(square):
         for number in row:
             if number in possible_numerals:
                 possible_numerals.remove(number)
-    print(possible_numerals)
+    
+    combs0= list(itertools.combinations(possible_numerals, dimension-2))
+    combs1= list(itertools.combinations(possible_numerals, dimension-2))
+   
+    half = int(dimension / 2)
 
-l2 = list(square_6[0])[:2] + [2,3] + list(square_6[0])[2:]
+    for l in range(len(combs0)):
+        for p in range(len(combs1)):
+            if common(list(combs0[l]), list(combs1[p])) == False:
+                if square[half][half-1] not in list(combs0[l]) and square[half][half] not in list(combs0[l]) and square[half-1][half-1] not in list(combs1[p]) and square[half-1][half] not in list(combs1[p]):
+                    perm0 = list(itertools.permutations(list(combs0[l]), dimension-2))
+                    perm1 = list(itertools.permutations(list(combs1[p]), dimension-2))
+                    if (24,17,20,19) in perm0 and (13,23,14,18) in perm1:
+                        print("true")
+                    for j in range(len(perm0)):
+                        for q in range(len(perm1)):
+                            #perm0[j] = list(perm0[j])
+                            #perm1[q] = list(perm1[q])
+                            if common(list(perm0[j]), list(perm1[q])) == False:
+                                #perm0_mod = list(perm0[j])[:(half-1)] + [square[half-1][half-1], square[half-1][half]] + list(perm0[j])[(half-1):]
+                                #list(perm0[j]).insert(square[half-1][half-1], half-1)
+                                #list(perm0[j]).insert(square[half-1][half], half)
+                                #perm1_mod = list(perm1[j])[:(half-1)] + [square[half][half-1], square[half][half]] + list(perm1[j])[(half-1):]    
 
-square_checker(square_6)
+                                if list(perm0[j]) == [24,17,20,19] and list(perm1[q]) == [13,23,14,18]:
+                                    print("TRUE")
+
+solve_algorithm(square_6)
 
