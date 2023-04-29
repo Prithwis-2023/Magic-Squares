@@ -21,27 +21,29 @@ square_6 = np.array([[1,32,34,3,35,6],
             [31,5,4,33,2,36]])
 
 def square_checker(square):
+    sq = list(square)
     l = [] 
-    for row in square:
+    for row in sq:
         l.append(sum(row))
     
-    for i in range(int(math.sqrt(square[-1][-1]))):
-            l.append(sum(square[:,i]))    
+    sum_col = 0
+    for i in range(int(math.sqrt(sq[-1][-1]))):
+        for j in range(int(math.sqrt(sq[-1][-1]))):    
+            sum_col = sum_col + sq[j][i]
+        l.append(sum_col)    
     
     sum_left = 0
-    for j in range(int(math.sqrt(square[-1][-1]))):
-        sum_left = sum_left + square[j][j]
+    for j in range(int(math.sqrt(sq[-1][-1]))):
+        sum_left = sum_left + sq[j][j]
     l.append(sum_left)    
        
     sum_right = 0
-    for k in range(int(math.sqrt(square[-1][-1]))):
-        sum_right = sum_right + square[k][-(k+1)]
+    for k in range(int(math.sqrt(sq[-1][-1]))):
+        sum_right = sum_right + sq[k][-(k+1)]
     l.append(sum_right)
 
     if len(set(l)) == 1:
-        print("true")
-    else:
-        print("false")
+        print("True")
 
 
 
@@ -59,4 +61,6 @@ def solve_algorithm(square):
     print(possible_numerals)
 
 l2 = list(square_6[0])[:2] + [2,3] + list(square_6[0])[2:]
-print(l2)
+
+square_checker(square_6)
+

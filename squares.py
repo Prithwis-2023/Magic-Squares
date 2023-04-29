@@ -34,31 +34,26 @@ def common(a,b):
     else:
         return False
 
-def square_checker(square):
-    sq = list(square)
-    l = [] 
-    for row in sq:
-        l.append(sum(row))
+def is_magic_square(square):
+    # Calculate the expected sum of each row, column, and diagonal
+    n = len(square)
+    expected_sum = n * (n**2 + 1) // 2
     
-    sum_col = 0
-    for i in range(int(math.sqrt(sq[-1][-1]))):
-        for j in range(int(math.sqrt(sq[-1][-1]))):    
-            sum_col = sum_col + sq[j][i]
-            l.append(sum_col)    
+    # Check rows and columns
+    for i in range(n):
+        row_sum = sum(square[i])
+        col_sum = sum(square[j][i] for j in range(n))
+        if row_sum != expected_sum or col_sum != expected_sum:
+            return False
     
-    sum_left = 0
-    for j in range(int(math.sqrt(sq[-1][-1]))):
-        sum_left = sum_left + sq[j][j]
-    l.append(sum_left)    
-       
-    sum_right = 0
-    for k in range(int(math.sqrt(sq[-1][-1]))):
-        sum_right = sum_right + sq[k][-(k+1)]
-    l.append(sum_right)
-
-    if len(set(l)) == 1:
-        return True
-
+    # Check diagonals
+    diagonal_sum1 = sum(square[i][i] for i in range(n))
+    diagonal_sum2 = sum(square[i][n-1-i] for i in range(n))
+    if diagonal_sum1 != expected_sum or diagonal_sum2 != expected_sum:
+        return False
+    
+    # If all checks passed, it is a magic square
+    return True
 
 def solve_algorithm(square):
     dimension = int(math.sqrt(square[-1][-1]))
@@ -104,7 +99,7 @@ def solve_algorithm(square):
                                     mod_sq.append(list(square[k]))
                                 
                                 magic = np.array(mod_sq)    
-                                if np.array_equiv(magic, sol_6) == True:
+                                if is_magic_square(magic) == True:
                                     print(magic)
 
 solve_algorithm(square_6)    
