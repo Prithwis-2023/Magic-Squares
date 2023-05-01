@@ -2,6 +2,7 @@ import numpy as np
 import math
 import itertools
 
+#checking for commonality
 def common(a,b):
     out = any(check in a for check in b)
     if out:
@@ -9,6 +10,7 @@ def common(a,b):
     else:
         return False
 
+#checking if the square is indeed a magic square
 def is_magic_square(square):
     # Calculate the expected sum of each row, column, and diagonal
     n = len(square)
@@ -19,7 +21,7 @@ def is_magic_square(square):
         row_sum = sum(square[i])
         col_sum = sum(square[j][i] for j in range(n))
         if row_sum != expected_sum or col_sum != expected_sum:
-            return False
+            return False 
     
     # Check diagonals
     diagonal_sum1 = sum(square[i][i] for i in range(n))
@@ -30,6 +32,43 @@ def is_magic_square(square):
     # If all checks passed, it is a magic square
     return True
 
+#designed as per my research of construction
+def generator(n):   #n is the desired dimension
+    matrix = np.zeros((n,n), dtype=int)
+    matrix[0][0] = 1
+    matrix[0][n-1] = n
+    matrix[n-1][n-1] = n**2
+    matrix[n-1][0] = n**2 - n + 1
+
+    commondiff0 = (matrix[n-1][n-1] - matrix[0][0]) / (n - 1)
+    commondiff1 = (matrix[n-1][0] - matrix[0][n-1]) / (n - 1)
+    for i in range(1,n-1):
+        matrix[i][i] = matrix[i-1][i-1] + commondiff0
+        matrix[i][-(i+1)] = matrix[i-1][-i] + commondiff1
+
+    blanks = int((n-10) / 4) + 2            #to be left in the first and last rows
+    for i in range(1, blanks):
+        matrix[0][i] = matrix[0][i-1] + 1
+        matrix[n-1][i] = matrix[n-1][i-1] + 1    
+    for i in range(2, blanks + 1):
+        matrix[0][-i] = matrix[0][-i+1] - 1
+        matrix[n-1][-i] = matrix[n-1][-i+1] - 1
+
+    #matrix[0][int(n / 2)] = int(n / 2)
+    matrix[n-1][int(n / 2)] = n**2 - int(n / 2)
+    matrix[n-1][int(n / 2) - 1] = int(n / 2) + 1
+    matrix[0][int(n / 2) - 1] = matrix[n-1][int(n / 2)] + 1
+    
+    for i in range(int(n / 2) - 2, blanks-1, -1):
+            matrix[0][i] = matrix[0][i+1] + 1 
+    for i in range(int(n / 2) - 1 , n - blanks - 1):
+        matrix[0][i+1] = matrix[0][i] - 1 
+
+    matrix[0][int(n / 2)] = int(n / 2)
+
+    return matrix    
+
+#tailored for solving the two middle rows of the particular class of magic squares being generated
 def solve_algorithm(square):
     dimension = int(math.sqrt(square[-1][-1]))
     sum_square = 0

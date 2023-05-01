@@ -1,7 +1,8 @@
 import numpy as np
 import math
 import itertools
-                   
+import main
+'''                   
 square = np.array([[1,2,98,97,96,5,94,93,9,10], 
                 [90,12,13,84,85,86,87,18,19,11],
                 [80,79,23,24,76,75,27,28,72,21],
@@ -90,4 +91,6 @@ def solve_algorithm(square):
                                     print("TRUE")
 
 solve_algorithm(square_6)
+'''
+print(main.generator(10))
 
