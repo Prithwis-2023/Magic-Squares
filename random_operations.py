@@ -92,5 +92,5 @@ def solve_algorithm(square):
 
 solve_algorithm(square_6)
 '''
-print(main.generator(10))
+print(main.generator(14))
 

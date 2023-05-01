@@ -71,6 +71,25 @@ def generator(n):   #n is the desired dimension
 
     matrix[n-1][int(n / 2) + 1] = matrix[0][int(n / 2)] - 1
     matrix[n-1][int(n / 2) - 2] = matrix[n-1][int(n / 2) - 1] + 1
+
+    for i in range(0, (int(n / 2) - 2)):
+        matrix[n-1][i] = 1 + i
+    matrix[n-1][0] = matrix[0][n-1] + (n - 1) * commondiff1
+    for i in range(1, blanks):    
+        matrix[n-1][i] = matrix[n-1][i-1] + 1 
+
+    matrix[n-1][(-1 * blanks) - 1] = matrix[0][-1 * blanks] - 1   #for the zeros that are still left in the last row
+    for i in (-blanks-1, -(int(n / 2) + 1)):
+        matrix[n-1][i-1] = matrix[n-1][i] - 1
+        #pass
+
+    for i in range(1, int((n - 10) / 4) + 3):
+        for j in range(i, i + blanks-1):
+           matrix[i][j+1] = matrix[i][j] + 1
+           matrix[n-i-1][j+1] = matrix[n-i-1][j] + 1 
+        for j in (-i - 1, -i - blanks + 1):
+            matrix[i][j-1] = matrix[i][j] - 1
+            matrix[n-i-1][j-1] = matrix[n-i-1][j] - 1
     return matrix    
 
 #tailored for solving the two middle rows of the particular class of magic squares being generated
