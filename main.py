@@ -152,20 +152,31 @@ def generator(n):  #n is the desired dimension
       for j in range(-i - 1, -i - blanks, -1):
         matrix[i][j - 1] = matrix[i][j] - 1
         matrix[n - i - 1][j - 1] = matrix[n - i - 1][j] - 1
-        
+
     #correcting the arrangement of the numbers in the two middle columns
     for i in range(2, int(n / 2) - 1):
       matrix[i][int(n / 2) - 1] += 1
       matrix[i][int(n / 2)] -= 1
-    
-    matrix[n-2][int(n / 2) - 1] += 1
-    matrix[n-2][int(n / 2)] -= 1
 
-    matrix[int(n / 2) - blanks - 1][int(n / 2) - 1] = matrix[int(n / 2) + blanks][int(n / 2) - 2] + 2
-    matrix[int(n / 2) - blanks - 1][int(n / 2)] = matrix[int(n / 2) - blanks - 1][int(n / 2) - 1] - 1
-    matrix[int(n / 2) + blanks][int(n / 2) - 1] = matrix[int(n / 2) - blanks - 1][int(n / 2) - 2] + 1
-    matrix[int(n / 2) + blanks][int(n / 2)] = matrix[int(n / 2) + blanks][int(n / 2) - 1] + 1
-    
+    matrix[n - 2][int(n / 2) - 1] += 1
+    matrix[n - 2][int(n / 2)] -= 1
+
+    matrix[int(n / 2) - blanks -
+           1][int(n / 2) - 1] = matrix[int(n / 2) + blanks][int(n / 2) - 2] + 2
+    matrix[int(n / 2) - blanks - 1][int(
+        n / 2)] = matrix[int(n / 2) - blanks - 1][int(n / 2) - 1] - 1
+    matrix[int(n / 2) +
+           blanks][int(n / 2) -
+                   1] = matrix[int(n / 2) - blanks - 1][int(n / 2) - 2] + 1
+    matrix[int(n / 2) + blanks][int(
+        n / 2)] = matrix[int(n / 2) + blanks][int(n / 2) - 1] + 1
+
+    #eliminating the outliers
+    for i in range(2, int(n / 2) - 1):
+      for element in matrix[i][:]:
+        if element != 0:
+          element = 0
+
     return matrix
   else:
     return False
