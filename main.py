@@ -39,7 +39,7 @@ def is_magic_square(square):
 
 #validating for the correct dimensions
 def check_dims(dimension):
-  if ((dimension // 2) / 2) != 0 and dimension >= 6:
+  if dimension % 2 == 0 and ((dimension // 2) / 2) != 0 and dimension >= 6:
     return True
   else:
     return False
@@ -173,13 +173,86 @@ def generator(n):  #n is the desired dimension
 
     #eliminating the outliers
     for i in range(2, int(n / 2) - 1):
-      for element in matrix[i][:]:
+      for element in matrix[i][(n - i):]:
         if element != 0:
-          element = 0
+          ind = np.where(matrix[i] == element)[0][0]
+          matrix[i][ind] = 0
+      for element in matrix[i][0:i]:
+        if element != 0:
+          ind = np.where(matrix[i] == element)[0][0]
+          matrix[i][ind] = 0
+
+    for i in range(n - 3, n - int(n / 2), -1):
+      for element in matrix[i][(i + 1):]:
+        if element != 0:
+          ind = np.where(matrix[i] == element)[0][0]
+          matrix[i][ind] = 0
+      for element in matrix[i][0:(n - i - 1)]:
+        if element != 0:
+          ind = np.where(matrix[i] == element)[0][0]
+          matrix[i][ind] = 0
 
     return matrix
   else:
-    return False
+    print("Error! Only Singly-Even Dimensions are Permissible.")
+
+
+#tailored for solving the two middle rows (under development)
+def solve_algorithm(square):
+  dimension = int(math.sqrt(square[-1][-1]))
+  sum_square = 0
+  for i in range(dimension):
+    sum_square = sum_square + square[i][i]
+  possible_numerals = [i + 1 for i in range(dimension**2)]
+  for row in square:
+    for number in row:
+      if number in possible_numerals:
+        possible_numerals.remove(number)
+
+  combs0 = list(itertools.combinations(possible_numerals, dimension - 2))
+  combs1 = list(itertools.combinations(possible_numerals, dimension - 2))
+
+  half = int(dimension / 2)
+
+  for l in range(len(combs0)):
+    for p in range(len(combs1)):
+      if common(list(combs0[l]), list(combs1[p])) == False:
+        if square[half][half - 1] not in list(
+            combs0[l]) and square[half][half] not in list(
+                combs0[l]) and square[half - 1][half - 1] not in list(
+                    combs1[p]) and square[half - 1][half] not in list(
+                        combs1[p]):
+          perm0 = list(itertools.permutations(list(combs0[l]), dimension - 2))
+          perm1 = list(itertools.permutations(list(combs1[p]), dimension - 2))
+
+          for j in range(len(perm0)):
+            for q in range(len(perm1)):
+              #perm0[j] = list(perm0[j])
+              #perm1[q] = list(perm1[q])
+              if common(list(perm0[j]), list(perm1[q])) == False:
+                perm0_mod = list(perm0[j])[:(half - 1)] + [
+                    square[half - 1][half - 1], square[half - 1][half]
+                ] + list(perm0[j])[(half - 1):]
+                #list(perm0[j]).insert(square[half-1][half-1], half-1)
+                #list(perm0[j]).insert(square[half-1][half], half)
+                perm1_mod = list(perm1[q])[:(half - 1)] + [
+                    square[half][half - 1], square[half][half]
+                ] + list(perm1[q])[(half - 1):]
+                #list(perm1[q]).insert(square[half][half-1], half-1)
+                #list(perm1[q]).insert(square[half][half], half)
+
+                mod_sq = []
+                for k in range(half - 1):
+                  mod_sq.append(list(square[k]))
+                mod_sq.append(perm0_mod)
+                mod_sq.append(perm1_mod)
+                for k in range((half + 1), dimension):
+                  mod_sq.append(list(square[k]))
+
+                magic = np.array(mod_sq)
+                if is_magic_square(magic) == True:
+                  print(magic)
+                  print("-----------------------------------------------")
 
 
 dim = int(input("Enter the Dimension: "))
