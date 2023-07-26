@@ -192,6 +192,37 @@ def generator(n):  #n is the desired dimension
           ind = np.where(matrix[i] == element)[0][0]
           matrix[i][ind] = 0
 
+    #filling the first and last columns
+    for i in range(2, int(n / 2) - 1):
+      matrix[i][0] = matrix[i - 1][0] - n
+      matrix[i][n - 1] = matrix[i - 1][n - 1] + n
+      matrix[n - i - 1][0] = matrix[n - i][0] + n
+      matrix[n - i - 1][n - 1] = matrix[n - i][n - 1] - n
+
+    #trial and fill
+    temp = np.copy(matrix)
+    for i in range(2, int(n / 2) - 1):
+      for j in range(1, i):
+        temp[i][j] = temp[i][j - 1] - 1
+      
+      temp[int(n / 2) - i][int(n / 2) +
+                           i] = temp[int(n / 2) + i - 1][int(n / 2) - i] - 1
+
+      for j in range(int(n / 2) + i + 1, n - 1):
+        temp[int(n / 2) - i][j] = temp[int(n / 2) - i][j - 1] - 1
+      
+      for j in range(1, i):
+        temp[n - i - 1][j] = temp[n - i - 1][j - 1] - 1
+
+      temp[int(n / 2) + i - 1][int(n / 2) + i] = temp[int(n / 2) - i][int(n / 2) - i] - 1
+
+      for j in range(int(n / 2) + i + 1, n - 1):
+        temp[int(n / 2) + i - 1][j] = temp[int(n / 2) + i - 1][j - 1] - 1
+    
+    for k in range(2, n-2):
+      if np.sum(temp[k]) == (n * (n**2 + 1) // 2):
+        matrix[k] = np.copy(temp[k])
+
     return matrix
   else:
     print("Error! Only Singly-Even Dimensions are Permissible.")
@@ -200,10 +231,8 @@ def generator(n):  #n is the desired dimension
 #tailored for solving the two middle rows (under development)
 def solve_algorithm(square):
   dimension = int(math.sqrt(square[-1][-1]))
-  sum_square = 0
-  for i in range(dimension):
-    sum_square = sum_square + square[i][i]
-  possible_numerals = [i + 1 for i in range(dimension**2)]
+  sum_square = (dimension * (dimension**2 + 1) // 2)
+  possible_numerals = [(i + 1) for i in range(dimension**2)]
   for row in square:
     for number in row:
       if number in possible_numerals:
@@ -251,9 +280,15 @@ def solve_algorithm(square):
 
                 magic = np.array(mod_sq)
                 if is_magic_square(magic) == True:
-                  print(magic)
                   print("-----------------------------------------------")
-
-
+                  display(magic)
+                  
 dim = int(input("Enter the Dimension: "))
 display(generator(dim))
+solve_algorithm(generator(dim))
+
+# Lesson: In the first row, mirroring is a requisite for obtaining a solution!
+
+#Testing
+arr = np.array([[1, 32, 34, 3, 35, 6], [30, 8, 28, 27, 11, 7], [0, 0, 15, 16, 0, 0], [0, 0, 21, 22, 0, 0], [12, 26, 9, 10, 29, 25], [31, 5, 4, 33, 2, 36]])
+solve_algorithm(arr)
