@@ -290,5 +290,5 @@ solve_algorithm(generator(dim))
 # Lesson: In the first row, mirroring is a requisite for obtaining a solution!
 
 #Testing
-arr = np.array([[1, 32, 34, 3, 35, 6], [30, 8, 28, 27, 11, 7], [0, 0, 15, 16, 0, 0], [0, 0, 21, 22, 0, 0], [12, 26, 9, 10, 29, 25], [31, 5, 4, 33, 2, 36]])
-solve_algorithm(arr)
+#arr = np.array([[1, 32, 34, 3, 35, 6], [30, 8, 28, 27, 11, 7], [0, 0, 15, 16, 0, 0], [0, 0, 21, 22, 0, 0], [12, 26, 9, 10, 29, 25], [31, 5, 4, 33, 2, 36]])
+#solve_algorithm(arr)
